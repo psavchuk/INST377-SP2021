@@ -7,7 +7,7 @@ html, body {
 
 html {
   font-size: 10px;
-
+  background-color: turquoise;
 }
 
 body {
@@ -20,7 +20,7 @@ body {
 /* || typography */
 
 h1, h2, h3 {
-  font-family: 'Cinzel Decorative', cursive;
+  font-family: 'Comfortaa', cursive;
   color: #2a2a2a;
 }
 
@@ -57,6 +57,7 @@ p, li {
   margin-bottom: 10px;
   display: flex;
   flex-flow: row wrap;
+
 }
 
 body > * {
