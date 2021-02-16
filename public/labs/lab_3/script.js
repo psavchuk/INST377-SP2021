@@ -40,6 +40,7 @@ function cycleCarousel(value)
 
             currentIndex--;
 
+            //solution doesnt really use arrays, not sure how array would be used here
             carouselArray[0].style.marginLeft = (moveConstant * -currentIndex).toString() + "px"
 
             
@@ -63,6 +64,7 @@ function cycleCarousel(value)
 
 
             currentIndex++;
+
 
             carouselArray[0].style.marginLeft = (moveConstant * -currentIndex).toString() + "px"
 
