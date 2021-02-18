@@ -17,11 +17,45 @@
     height: 150px;
     position: absolute;
     top: 500px;
+    z-index: +1;
 }
 
 .bird {
-    background-color: gold;
+    background-image: url('images/flappy-bird.png');
     position: absolute;
     height: 45px;
     width: 60px;
+}
+
+.obstacle {
+    background-image: url("images/flappybird-pipe.png");
+    width: 60px;
+    height: 300px;
+    position: absolute;
+}
+
+.topObstacle {
+    background-image: url("images/flappybird-pipe.png");
+    transform: rotate(180deg);
+    width: 60px;
+    height: 300px;
+    position: absolute;
+}
+
+.borderTop {
+    background-color: white;
+    width: 660px;
+    height: 50px;
+    top: -50px;
+    position: absolute;
+    z-index: +2;
+}
+
+.borderBottom {
+    background-color: white;
+    width: 660px;
+    height: 150px;
+    top: 650px;
+    position: absolute;
+    z-index: +2;
 }
