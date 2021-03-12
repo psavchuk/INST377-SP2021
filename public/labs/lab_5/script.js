@@ -1,7 +1,7 @@
 function mapInit() {
   // follow the Leaflet Getting Started tutorial here
 
-  var map = L.map('mapid').setView([51.505, -0.09], 13);
+  var map = L.map('mapid').setView([-77, 39], 13);
 
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -9,13 +9,13 @@ function mapInit() {
       id: 'mapbox/streets-v11',
       tileSize: 512,
       zoomOffset: -1,
-      accessToken: 'your.mapbox.access.token'
+      accessToken: 'pk.eyJ1IjoicHNhdmNodWsiLCJhIjoiY2ttNXd0aXlvMGltNjJuanlua29jOHMycyJ9.NU4Xvcm6CG8UUflzSIgxBQ'
   }).addTo(map);
 
   return map;
 }
 
-async function dataHandler(mapObjectFromFunction) {
+async function dataHandler(mapObject) {
   // use your assignment 1 data handling code here
   // and target mapObjectFromFunction to attach markers
 
@@ -44,20 +44,29 @@ async function dataHandler(mapObjectFromFunction) {
       });
   }
 
-  function displayMatches(event) {
-      const matchArray = findMatches(event.target.value, places);
-      if (event.target.value ==="")
+  function displayMatches(value) {
+
+      //get values and filter
+      const matchArray = findMatches(value, places).filter(place => place.geocoded_column_1 !== undefined);
+
+      if (value === "")
       {
         list.innerHTML = "";
       }
       else 
       {
-      const html = matchArray.map(place => {
-        const regex = new RegExp(event.target.value, 'gi');
-        const nameMatch = place.name.replace(regex, `<span class='hl'>${event.target.value}</span>`);
-        const catMatch = place.category.replace(regex, `<span class='hl'>${event.target.value}</span>`)
+
+        //split array
+      const results = matchArray.slice(0, 5);
+      console.log(results);
+
+      const html = results.map(place => {
+        console.log();
+        const regex = new RegExp(value, 'gi');
+        const nameMatch = place.name.replace(regex, `<span class='hl'>${value}</span>`);
+        const catMatch = place.category.replace(regex, `<span class='hl'>${value}</span>`)
           return `
-              <div class="result">
+              <div class="box">
                   <li>
                       <span class="name is-capitalized is-size-4">
                         ${nameMatch.toLowerCase()}
@@ -74,16 +83,21 @@ async function dataHandler(mapObjectFromFunction) {
               `
       }).join('');
 
+      const mapMarkers = results.map(place => {
+        return L.marker(place.geocoded_column_1.coordinates).addTo(mapObject);
+      });
+
       list.innerHTML = html;
+
+
     }
   }
 
   form.addEventListener('submit', (evt) => {
-    console.log("submit fired")
     evt.preventDefault();
-    displayMatches(evt)
+    displayMatches(search.value);
+    
   });
-
   /*
   search.addEventListener('change', displayMatches);
   search.addEventListener('keyup', (evt) => {
@@ -92,6 +106,7 @@ async function dataHandler(mapObjectFromFunction) {
 }
 
 async function windowActions() {
+
   const map = mapInit();
   await dataHandler(map);
   
